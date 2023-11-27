@@ -1,0 +1,32 @@
+id: service_reveal
+info:
+  name: service_reveal
+  author: mike
+  severity: info
+  description: 用友nc有个接口可以获取数据库账户密码，不过是老版本了
+  reference: https://www.cnblogs.com/pursue-security/p/17685157.html
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: app="用友-UFIDA-NC"
+http:
+  - raw:
+      - |
+        GET /uapws/service HTTP/1.1
+        Host: {{Hostname}}  
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36
+        Accept-Encoding: gzip, deflate
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        words:
+          - "{http://"
+          - "<html><body><p> <a"
+          - "</a> </p></body></html"
+        part: body
+        condition: and
+
+      - type: status
+        status:
+          - 200

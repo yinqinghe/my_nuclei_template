@@ -1,0 +1,14 @@
+id: zhiyuan
+info:
+  name: zhiyuan
+  author: mike
+  severity: info
+  description: xxx
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: app="用友-U8-Cloud"
+workflows:
+  - template: ajax.do前台未授权.yaml
+  - template: wpsAssistServlet 任意文件上传.yaml
+  - template: Session泄露 任意文件上传.yaml

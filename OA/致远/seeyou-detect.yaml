@@ -1,0 +1,25 @@
+id: seeyou-workflow
+info:
+  name: seeyou Security Checks
+  author: dwisiswant0
+workflows:
+  - template: /http/vulnerabilities/seeyon/seeyon-config-exposure.yaml
+  - template: /http/vulnerabilities/seeyon/seeyon-createmysql-exposure.yaml
+  - template: /http/vulnerabilities/seeyon/seeyon-initdata-exposure.yaml
+  - template: /http/vulnerabilities/seeyon/seeyon-oa-fastjson-rce.yaml
+  - template: /http/vulnerabilities/seeyon/seeyon-oa-setextno-sqli.yaml
+  - template: /http/vulnerabilities/seeyon/seeyon-oa-sp2-file-upload.yaml
+  - template: /http/vulnerabilities/seeyon/wooyun-2015-148227.yaml
+  - template: /http/vulnerabilities/seeyon/zhiyuan-file-upload.yaml
+  - template: /http/vulnerabilities/seeyon/zhiyuan-oa-info-leak.yaml
+  - template: /http/vulnerabilities/seeyon/zhiyuan-oa-session-leak.yaml
+  - template: ajax.do前台未授权.yaml
+  - template: wpsAssistServlet 任意文件上传.yaml
+  - template: Session泄露 任意文件上传.yaml
+  - template: 前台任意用户密码重置.yaml
+  - template: 任意文件读取.yaml
+  - template: 默认口令导致敏感信息泄露.yaml
+
+
+
+

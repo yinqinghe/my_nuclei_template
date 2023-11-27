@@ -1,0 +1,31 @@
+id: password-default
+info:
+  name: xxx
+  author: mike
+  severity: info
+  description: xxx
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: app="用友-U8-Cloud"
+http:
+  - raw:
+      - |
+        GET /seeyon/management/index.jsp HTTP/1.1
+        Host: {{Hostname}}  
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36
+        Accept-Encoding: gzip, deflate
+
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+      - type: word
+        words:
+          - "Password"
+
+# 使用 WLCCYBD@SEEYON 登录后台，这里泄露一些信息，例如数据库账号
+
+# http://113.106.87.23/seeyon/management/status.jsp
+# http://1.202.26.206:8081/seeyon/management/status.jsp

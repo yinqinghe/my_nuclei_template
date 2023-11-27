@@ -1,0 +1,33 @@
+id: bypass_password
+info:
+  name: 用友ERP-NC控制台_bypass_pass
+  author: mike
+  severity: info
+  description: xxx
+  reference: https://www.cnblogs.com/pursue-security/p/17685126.html
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: app="用友-UFIDA-NC"
+http:
+  - raw:
+      - |
+        GET /uapws/ HTTP/1.1
+        Host: {{Hostname}}  
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36
+        Accept-Encoding: gzip, deflate
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        words:
+          - "basictable"
+          - "<title>WS-Console</title>"
+        part: body
+        condition: and
+
+      - type: status
+        status:
+          - 200
+
+# 如果 password 项存在内容，则直接点击 OK 即可登录，如果不存在内容，则输入任意内容，后更改返回数据包由 0 变为 1 即可实现登录。

