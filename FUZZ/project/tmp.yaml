@@ -1,0 +1,35 @@
+id: multiple-raw-example
+info:
+  name: Test RAW Template
+  author: pdteam
+  severity: info
+
+# HTTP Intruder fuzzing with in template payload support. 
+
+http:
+
+  - raw:
+      - |
+        GET /portal.do?action=§keysss§ HTTP/1.1
+        Host: {{Hostname}}  
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36
+        Accept-Encoding: gzip, deflate
+        Connection: close
+
+    payloads:
+      # keys: 
+      #   - "index"
+      #   - "admin"
+      # keyss: ad.txt
+      keysss: S:\Tools\Apt_Tools\Tools\暴力破解\密码字典\WebfuzzDicts\paramDict\dir.txt
+    attack: clusterbomb # Available: batteringram,pitchfork,clusterbomb
+
+    matchers-condition: and
+
+    matchers:
+      # - type: word
+      #   words:
+      #     - "Test is test matcher text"
+      - type: status
+        status:
+          - 200

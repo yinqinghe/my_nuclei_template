@@ -1,7 +1,7 @@
 id: springboot-workflow
 info:
   name: Springboot Security Checks
-  author: dwisiswant0
+  author: mike
 workflows:
   - template: http/technologies/spring-detect.yaml
   - template: http/technologies/springboot-actuator.yaml

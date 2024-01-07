@@ -1,0 +1,20 @@
+id: elasticsearch-workflow
+info:
+  name: elasticsearch Security Checks
+  author: dwisiswant0
+workflows:
+  - template: /http/misconfiguration/elasticsearch.yaml
+  - template: /http/default-logins/elasticsearch/elasticsearch-default-login.yaml
+  - template: /http/technologies/elasticsearch-sql-client-detect.yaml
+  - template: /http/vulnerabilities/other/elasticsearch5-log4j-rce.yaml
+  - template: /http/cves/2017/CVE-2017-12629.yaml
+  - template: /http/cves/2014/CVE-2014-3120.yaml
+  - template: /http/exposures/tokens/generic/credentials-disclosure.yaml
+  - template: /http/cves/2015/CVE-2015-3337.yaml
+  - template: /http/cves/2015/CVE-2015-1427.yaml
+  - template: /http/honeypot/elasticpot-honeypot-detect.yaml
+  - template: /http/technologies/fingerprinthub-web-fingerprints.yaml
+  - template: /http/cves/2015/CVE-2015-5531.yaml
+  - template: /file/keys/credential-exposure-file.yaml
+  - template: /http/cves/2021/CVE-2021-22145.yaml
+  - template: /http/misconfiguration/elastic-hd-dashboard.yaml

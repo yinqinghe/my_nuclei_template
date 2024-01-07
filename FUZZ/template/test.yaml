@@ -1,0 +1,34 @@
+id: multiple-raw-example
+info:
+  name: Test RAW Template
+  author: pdteam
+  severity: info
+
+# HTTP Intruder fuzzing with in template payload support. 
+
+http:
+
+  - raw:
+      - |
+        POST /§password§ HTTP/1.1
+        User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0
+        Host: {{Hostname}}
+        another_header: {{base64('§password§')}}
+        Accept: */*
+
+        body=test
+
+    payloads:
+      username: ad.txt
+      password: S:\Tools\Apt_Tools\Tools\信息收集\敏感目录\gobuster\wordlist\admin.txt
+    attack: clusterbomb # Available: batteringram,pitchfork,clusterbomb
+
+    matchers-condition: and
+
+    matchers:
+      - type: word
+        words:
+          - "Test is test matcher text"
+      - type: status
+        status:
+          - 200

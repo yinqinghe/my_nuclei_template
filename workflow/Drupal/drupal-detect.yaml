@@ -1,0 +1,22 @@
+id: drupal-workflow
+info:
+  name: drupal Security Checks
+  author: mike
+workflows:
+  - template: /http/technologies/drupal-detect.yaml
+  - template: /http/exposures/files/drupal-install.yaml
+  - template: /http/exposures/apis/drupal-jsonapi-user-listing.yaml
+  - template: /http/vulnerabilities/drupal/drupal-avatar-xss.yaml
+  - template: /http/exposed-panels/drupal-login.yaml
+  - template: /http/misconfiguration/drupal/drupal-user-enum-ajax.yaml
+  - template: /http/technologies/favicon-detect.yaml
+  - template: /http/exposures/backups/php-backup-files.yaml
+  - template: /http/cves/2018/CVE-2018-9205.yaml
+  - template: /http/cves/2019/CVE-2019-6340.yaml
+  - template: /http/cves/2018/CVE-2018-7602.yaml
+  - template: /http/cves/2018/CVE-2018-7600.yaml
+  - template: /http/cves/2014/CVE-2014-3704.yaml
+  - template: /http/cves/2018/CVE-2018-7600.yaml
+  - template: /http/cves/2018/CVE-2018-7600.yaml
+
+

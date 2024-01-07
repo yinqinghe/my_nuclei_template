@@ -1,0 +1,13 @@
+id: nacos-workflow
+info:
+  name: nacos Security Checks
+  author: mike
+workflows:
+  - template: /http/technologies/nacos-version.yaml
+  - template: /http/vulnerabilities/other/nacos-auth-bypass.yaml
+  - template: /http/default-logins/nacos/nacos-default-login.yaml
+  - template: /http/misconfiguration/nacos/nacos-create-user.yaml
+  - template: /http/misconfiguration/nacos-authentication-bypass.yaml
+  - template: /http/cves/2021/CVE-2021-29442.yaml
+  - template: /http/technologies/fingerprinthub-web-fingerprints.yaml
+  - template: /http/cves/2021/CVE-2021-29441.yaml

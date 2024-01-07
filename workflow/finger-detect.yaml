@@ -1,0 +1,10 @@
+id: finger-workflow
+info:
+  name: finger Security Checks
+  author: mike
+workflows:
+  - template: /http/technologies/fingerprinthub-web-fingerprints.yaml
+  - template: /http/technologies/favicon-detect.yaml
+
+
+

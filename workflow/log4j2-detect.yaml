@@ -1,0 +1,16 @@
+id: log4j2-workflow
+info:
+  name: log4j2 Security Checks
+  author: mike
+workflows:
+  - template: http/cves/2021/CVE-2021-45046.yaml
+  - template: http/cves/2021/CVE-2021-44228.yaml
+  - template: http/vulnerabilities/other/seeyon-oa-log4j.yaml
+  - template: http/vulnerabilities/other/logstash-log4j-rce.yaml
+  - template: http/vulnerabilities/mobileiron/mobileiron-log4j-jndi-rce.yaml
+  - template: http/vulnerabilities/other/f-secure-policymanager-log4j-rce.yaml
+  - template: http/vulnerabilities/jamf/jamf-log4j-jndi-rce.yaml
+  - template: http/vulnerabilities/other/graylog-log4j.yaml
+  - template: http/vulnerabilities/apache/apache-solr-log4j-rce.yaml
+  - template: http/vulnerabilities/cisco/cisco-cloudcenter-suite-log4j-rce.yaml
+

