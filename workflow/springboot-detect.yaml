@@ -5,8 +5,8 @@ info:
 workflows:
   - template: http/technologies/spring-detect.yaml
   - template: http/technologies/springboot-actuator.yaml
-    subtemplates:
-      - tags: springboot,springcloud,spring
+    # subtemplates:
+  - tags: springboot,springcloud,spring
     # subtemplates:
     #   - template: cves/CVE-2018-1271.yaml
     #   - template: cves/CVE-2018-1271.yaml

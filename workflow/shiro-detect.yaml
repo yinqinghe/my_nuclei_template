@@ -1,0 +1,9 @@
+id: shiro-workflow
+info:
+  name: shiro Security Checks
+  author: mike
+workflows:
+  - template: http/technologies/shiro-detect.yaml
+  - template: http/cves/2016/CVE-2016-4437.yaml
+  - template: http/technologies/default-apache-shiro.yaml
+  - template: http/vulnerabilities/apache/shiro/shiro-deserialization-detection.yaml

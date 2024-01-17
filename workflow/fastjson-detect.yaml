@@ -1,7 +1,7 @@
 id: fastjson-workflow
 info:
   name: fastjson Security Checks
-  author: dwisiswant0
+  author: mike
 workflows:
   - template: /http/technologies/fastjson-version.yaml
   - template: /http/vulnerabilities/fastjson/fastjson-1-2-24-rce.yaml
